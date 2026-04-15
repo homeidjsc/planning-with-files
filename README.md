@@ -19,16 +19,27 @@ If this skill helps you work smarter, that's all I wanted.
 
 </details>
 
-<details open>
-<summary><strong>🌍 See What the Community Built</strong></summary>
+<details>
+<summary><strong>🌍 People are building real things with this → click to see</strong></summary>
 
-| Fork | Author | Features |
-|------|--------|----------|
+### Forks & Extensions
+
+| Fork | Author | What They Built |
+|------|--------|-----------------|
 | [devis](https://github.com/st01cs/devis) | [@st01cs](https://github.com/st01cs) | Interview-first workflow, `/devis:intv` and `/devis:impl` commands, guaranteed activation |
 | [multi-manus-planning](https://github.com/kmichels/multi-manus-planning) | [@kmichels](https://github.com/kmichels) | Multi-project support, SessionStart git sync |
 | [plan-cascade](https://github.com/Taoidle/plan-cascade) | [@Taoidle](https://github.com/Taoidle) | Multi-level task orchestration, parallel execution, multi-agent collaboration |
 | [agentfund-skill](https://github.com/RioTheGreat-ai/agentfund-skill) | [@RioTheGreat-ai](https://github.com/RioTheGreat-ai) | Crowdfunding for AI agents with milestone-based escrow on Base |
 | [openclaw-github-repo-commander](https://github.com/wd041216-bit/openclaw-github-repo-commander) | [@wd041216-bit](https://github.com/wd041216-bit) | 7-stage GitHub repo audit, optimization, and cleanup workflow for OpenClaw |
+
+### Used in the Wild
+
+| Project | What It Is |
+|---------|-----------|
+| [lincolnwan/Planning-with-files-copilot-agent](https://github.com/lincolnwan/Planning-with-files-copilot-agent) | Entire Copilot agent repo built around the planning-with-files skill |
+| [cooragent/ClarityFinance](https://github.com/cooragent/ClarityFinance) | AI finance agent framework — Planning-with-Files approach directly credited |
+| [oeftimie/vv-claude-harness](https://github.com/oeftimie/vv-claude-harness) | Claude Code harness built on Manus-style persistent markdown planning |
+| [jessepwj/CCteam-creator](https://github.com/jessepwj/CCteam-creator) | Multi-agent team orchestration skill using file-based planning |
 
 *Built something? [Open an issue](https://github.com/OthmanAdi/planning-with-files/issues) to get listed!*
 
