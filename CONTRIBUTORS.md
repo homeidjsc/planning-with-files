@@ -186,6 +186,7 @@ These developers have created forks that extend the functionality:
 
 Thank you to everyone who reported issues, provided feedback, and helped test fixes:
 
+- [@nazeshinjite](https://github.com/nazeshinjite) - Issue #133 (Stop hook portability failure on Windows Git Bash — two-root-cause diagnosis with full Claude output, fixed in v2.34.1)
 - [@msuadOf](https://github.com/msuadOf) - Issue #93 (TMPDIR environment fix for plugin install)
 - [@DorianZheng](https://github.com/DorianZheng) - Issue #84 (BoxLite sandbox integration proposal)
 - [@mtuwei](https://github.com/mtuwei) - Issue #32 (Windows hook error)
@@ -214,6 +215,6 @@ If you've contributed and don't see your name here, please open an issue! We wan
 
 ---
 
-**Total Contributors:** 32+ and growing!
+**Total Contributors:** 33+ and growing!
 
-*Last updated: April 15, 2026*
+*Last updated: April 17, 2026*

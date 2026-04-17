@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.34.1] - 2026-04-17
+
+### Fixed
+
+- **Stop hook portability failure on Windows Git Bash** (closes #133, reported by @nazeshinjite) — Two independent bugs caused the Stop hook to silently fail on Windows 11 with Git Bash inside Command Prompt: (1) `export SD=` was treated as an external command rather than a shell builtin in certain Windows Git Bash invocation contexts, producing `bash: export: No such file or directory`; (2) the fallback path `$HOME/.claude/plugins/planning-with-files` never exists — the actual install location is `~/.claude/plugins/cache/planning-with-files/planning-with-files/VERSION/`. Fixed across all 13 SKILL.md variants (Claude Code, Codex, CodeBuddy, Cursor, Factory, Mastra Code, OpenCode, all language variants). Claude Code variants now use PowerShell self-discovery via `Get-ChildItem -Recurse` with `~` home expansion (no bash variable needed) and a glob-based sh fallback against the correct cache path. All other IDE variants have `export SD=` replaced with `SD=`.
+
 ## [2.34.0] - 2026-04-15
 
 ### Added
