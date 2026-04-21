@@ -1,7 +1,7 @@
 {
   "name": "planning-with-files",
-  "version": "2.34.0",
-  "description": "Manus-style persistent markdown files for planning, progress tracking, and knowledge storage. Works with Claude Code, Kiro, Clawd CLI, Gemini CLI, Cursor, Continue, and 16+ AI coding assistants. Now with Arabic, German, Spanish, and Chinese (Simplified & Traditional) support.",
+  "version": "2.35.0",
+  "description": "Manus-style persistent markdown files for planning, progress tracking, and knowledge storage. Works with Claude Code, Kiro, Clawd CLI, Gemini CLI, Cursor, Continue, Hermes, and 17+ AI coding assistants. Now with Arabic, German, Spanish, and Chinese (Simplified & Traditional) support.",
   "author": {
     "name": "OthmanAdi",
     "url": "https://github.com/OthmanAdi"
@@ -25,6 +25,7 @@
     "gemini",
     "cursor",
     "continue",
+    "hermes",
     "multi-ide",
     "agent-skills",
     "arabic",

@@ -119,7 +119,7 @@ When your context fills up and you run `/clear`, this skill **automatically reco
 </details>
 
 <details>
-<summary><strong>🛠️ Supported IDEs (16+ Platforms)</strong></summary>
+<summary><strong>🛠️ Supported IDEs (17+ Platforms)</strong></summary>
 
 #### Enhanced Support (hooks + lifecycle automation)
 
@@ -182,6 +182,7 @@ A Claude Code plugin that transforms your workflow to use persistent markdown fi
 [![Pi Agent](https://img.shields.io/badge/Pi%20Agent-Skills-FF4081)](https://pi.dev)
 [![GitHub Copilot](https://img.shields.io/badge/GitHub%20Copilot-Hooks-000000)](https://docs.github.com/en/copilot/reference/hooks-configuration)
 [![Mastra Code](https://img.shields.io/badge/Mastra%20Code-Skills-00BCD4)](https://code.mastra.ai)
+[![Hermes](https://img.shields.io/badge/Hermes-Agent_Skill-5C7CFA)](docs/hermes.md)
 [![BoxLite](https://img.shields.io/badge/BoxLite-Sandbox-6C3483)](https://boxlite.ai)
 
 ## Quick Install

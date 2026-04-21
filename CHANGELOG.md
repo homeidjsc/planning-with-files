@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.35.0] - 2026-04-21
+
+### Added
+
+- **Hermes adapter** (PR #136 by @bailob): new `.hermes/skills/planning-with-files/` bundle, `.hermes/plugins/planning-with-files/` Python adapter, `/plan` and `/plan-status` command wrappers, and `docs/hermes.md` install guide. The adapter registers three tools (`planning_with_files_init`, `planning_with_files_status`, `planning_with_files_check_complete`) plus `pre_llm_call` and `post_tool_call` hooks that mirror the Claude Code hook behavior. Hermes is now platform 17. The PR ships 20 unit tests in `tests/test_hermes_adapter.py` covering status parsing, reminder behavior, installation layout, and completion checks.
+- **NLPM audit coverage** (Issue #140 by @xiaolai): static audit of all 25 natural language artifacts, overall score 91/100, zero Critical or High findings. The three verified bugs were filed as separate PRs and merged below.
+
+### Fixed
+
+- **Pi PowerShell session-catchup syntax error** (PR #137 by @xiaolai, closes part of #140): `.pi/skills/planning-with-files/SKILL.md` had a missing opening `"` before the script path in the Windows PowerShell invocation, causing a parse error that silently killed session catchup for Pi users on Windows. Quote restored to balance the closing `"`.
+- **Session-catchup context injection now bounded** (PR #138 by @xiaolai, closes part of #140): `.github/hooks/scripts/session-start.sh` piped unbounded `session-catchup.py` output into `additionalContext`, meaning content from a prior session (web results, tool output) could reach the current model context unlabeled and without size limit. Output now passes through `head -100` and is prefixed with `[planning-with-files] Previous session context (truncated to 100 lines):` so the model knows the content is historical.
+- **Hook scripts prefer known Python paths** (PR #139 by @xiaolai, closes part of #140): `session-start.sh`, `pre-tool-use.sh`, and `error-occurred.sh` resolved the Python interpreter entirely from the user's PATH. The three scripts now try `/usr/bin/python3`, `/usr/local/bin/python3`, and `/opt/homebrew/bin/python3` before falling back to `command -v python3`, closing a PATH hijack vector without changing behavior on systems that expose Python at those canonical paths.
+
+### Changed
+
+- Version bumped to 2.35.0 across 14 SKILL.md variants, plugin.json, marketplace.json, and CITATION.cff
+- `CONTRIBUTORS.md` updated: added @bailob (PR #136, major contribution) and @xiaolai (PRs #137, #138, #139, Issue #140); total count now 36+
+- plugin.json description now says "17+ AI coding assistants" and keywords include `hermes`
+
+### Thanks
+
+- @bailob for the Hermes adapter, full test coverage, and the `/plan` and `/plan-status` command wrappers (PR #136)
+- @xiaolai for the NLPM audit sweep and three coordinated hardening PRs (PR #137, PR #138, PR #139, Issue #140)
+
 ## [2.34.1] - 2026-04-17
 
 ### Fixed

@@ -96,11 +96,24 @@ These amazing people have contributed code, documentation, or significant improv
   - Updated tests and docs for the new Codex catchup behavior
   - **Impact:** Brings session recovery parity to Codex users
 
+- **[@bailob](https://github.com/bailob)** - [PR #136](https://github.com/OthmanAdi/planning-with-files/pull/136)
+  - Added Hermes adapter with project plugin, Hermes facing `planning-with-files` skill, and `/plan` plus `/plan-status` command wrappers
+  - Bundled Hermes skill templates and scripts inside `.hermes/skills/planning-with-files/` and resolved them through the active profile's `HERMES_HOME`
+  - Added 20 unit tests covering status parsing, reminder behavior, installation layout, and completion checks
+  - **Impact:** Brings planning-with-files to the Hermes ecosystem as platform 17
+
 ### Other Contributors
 
 - **[@gavinlinasd](https://github.com/gavinlinasd)** - [PR #135](https://github.com/OthmanAdi/planning-with-files/pull/135)
   - Added ClawHub download history chart to README, tracking skill download growth over time
   - **Impact:** Visitors can now see download traction at a glance
+
+- **[@xiaolai](https://github.com/xiaolai)** - [PR #137](https://github.com/OthmanAdi/planning-with-files/pull/137), [PR #138](https://github.com/OthmanAdi/planning-with-files/pull/138), [PR #139](https://github.com/OthmanAdi/planning-with-files/pull/139), [Issue #140](https://github.com/OthmanAdi/planning-with-files/issues/140)
+  - Ran the NLPM (Natural Language Programming Manager) audit on the plugin and filed 3 targeted fix PRs plus a full audit summary issue (overall score 91/100)
+  - PR #137: fixed a missing quote in the Pi variant PowerShell session-catchup invocation that caused the command to fail silently on Windows
+  - PR #138: capped session-catchup output at 100 lines with a labeled prefix before injecting into model context, closing a prompt injection vector from stored session content
+  - PR #139: preferred known system Python paths over unqualified PATH resolution in `session-start.sh`, `pre-tool-use.sh`, and `error-occurred.sh`
+  - **Impact:** Hardened the Copilot hook scripts and the Pi variant in one coordinated audit pass
 
 - **[@Leon-Algo](https://github.com/Leon-Algo)** - [PR #119](https://github.com/OthmanAdi/planning-with-files/pull/119), [PR #120](https://github.com/OthmanAdi/planning-with-files/pull/120), [PR #122](https://github.com/OthmanAdi/planning-with-files/pull/122)
   - Made planning scripts executable in `.codex` skill install, fixing Codex installer breakage (PR #119)
@@ -219,6 +232,6 @@ If you've contributed and don't see your name here, please open an issue! We wan
 
 ---
 
-**Total Contributors:** 34+ and growing!
+**Total Contributors:** 36+ and growing!
 
-*Last updated: April 20, 2026*
+*Last updated: April 21, 2026*
