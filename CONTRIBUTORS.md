@@ -104,6 +104,11 @@ These amazing people have contributed code, documentation, or significant improv
 
 ### Other Contributors
 
+- **[@oaabahussain](https://github.com/oaabahussain)** - [Issue #150](https://github.com/OthmanAdi/planning-with-files/issues/150), [Issue #151](https://github.com/OthmanAdi/planning-with-files/issues/151)
+  - Issue #150: pointed out that the v2.36.1 BEGIN/END delimiters were a mitigation, not a guarantee, and proposed SHA-256 hash attestation so any silent edit to `task_plan.md` between user approval and hook injection trips a verifiable check
+  - Issue #151: named the regression class behind v2.34.1, v2.36.0, v2.36.2, and v2.36.3 (parity-locked files updated by hand across 19 destinations) and proposed the right surgical fix: a single bumper script plus a CI parity test
+  - **Impact:** v2.37.0 ships `/plan-attest`, `attest-plan.sh/.ps1`, `bump-version.py`, and two new test files that turn both report classes into things that fail the build instead of shipping silently
+
 - **[@gavinlinasd](https://github.com/gavinlinasd)** - [PR #135](https://github.com/OthmanAdi/planning-with-files/pull/135)
   - Added ClawHub download history chart to README, tracking skill download growth over time
   - **Impact:** Visitors can now see download traction at a glance

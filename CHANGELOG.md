@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.37.0] - 2026-05-05
+
+### Security
+
+- **Hash attestation for plan injection** (Issue #150 by @oaabahussain): `task_plan.md` content is auto-injected into the model context on every UserPromptSubmit and PreToolUse fire. v2.36.1 added BEGIN/END delimiters, but the model still parses the bytes. v2.37.0 adds an opt-in second layer: run `/plan-attest` (or `sh scripts/attest-plan.sh`) once a plan is finalised. The script computes a SHA-256 of `task_plan.md` and stores it at `.planning/<active-plan>/.attestation` (parallel-plan mode) or `./.plan-attestation` (legacy mode). On every hook fire, the inline check recomputes the hash and compares. On mismatch, injection is blocked and the model receives `[planning-with-files] [PLAN TAMPERED — injection blocked]` instead of plan content. When attestation is set, the injected context also carries a `Plan-SHA256:` line so the model can log the attested hash for audit. Opt-in: absence of an attestation file preserves the v2.36.x behavior.
+
+### Added
+
+- **`/plan-attest` slash command**: thin wrapper around `attest-plan.sh` with `--show` (print the stored hash) and `--clear` (re-open the plan to free editing).
+- **`scripts/attest-plan.sh` and `scripts/attest-plan.ps1`**: SHA-256 attestation helper for both POSIX shell and Windows PowerShell. Resolves the active plan via the same `$PLAN_ID` / `.active_plan` / newest-mtime / legacy chain used by the rest of the skill.
+- **`scripts/bump-version.py`** (Issue #151 by @oaabahussain): atomic version bumper for the parity-locked file set (14 SKILL.md variants, `plugin.json`, `marketplace.json`, `CITATION.cff`). Replaces 17 hand edits with one `python scripts/bump-version.py X.Y.Z`. Prevents the "missed one variant" regression class that hit v2.34.1, v2.36.0, v2.36.2, and v2.36.3. `.continue`, `.gemini`, `.pi`, and `.kiro` are intentionally excluded (separate version schemes); the script lists them at the end of every run so the omission stays visible.
+- **`tests/test_skill_md_version_parity.py`** (Issue #151): four assertions that fail the build the moment any parity-locked file diverges from the canonical SKILL.md version. Catches drift in CI before it can ship.
+- **`tests/test_plan_attestation.py`**: six tests covering legacy and parallel-plan attestation, `--show`, `--clear`, tamper detection, and missing-plan handling.
+
+### Fixed
+
+- **Duplicate test class in `tests/test_canonical_script_sync.py`**: a leftover second copy of `CanonicalScriptSyncTests` (lines 99 to 137) was running the same assertions twice. Removed.
+
+### Changed
+
+- **Security Boundary section in canonical SKILL.md**: now documents the two layers of defense (delimiters + attestation) and adds an explicit rule recommending `/plan-attest` after finalising a plan.
+- **`scripts/sync-ide-folders.py`**: SCRIPTS manifest now includes `attest-plan.sh` and `attest-plan.ps1`. The eight pre-existing scripts are unchanged.
+- **`tests/test_canonical_script_sync.py`**: `SHARED_SCRIPTS` extended to ten entries (added `attest-plan.sh` and `attest-plan.ps1`). The regression test now covers all user-facing scripts.
+- Version bumped to 2.37.0 across 14 SKILL.md variants, `plugin.json`, `marketplace.json`, and `CITATION.cff` via `scripts/bump-version.py`.
+
+### Thanks
+
+- @oaabahussain for two thoughtful, well-scoped P1 reports: Issue #150 turned the v2.36.1 delimiter mitigation into a verifiable cryptographic guarantee, and Issue #151 named the regression class behind four consecutive releases and proposed the right surgical fix.
+
 ## [2.36.3] - 2026-05-01
 
 ### Fixed

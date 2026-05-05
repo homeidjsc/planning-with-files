@@ -42,6 +42,8 @@ SHARED_SCRIPTS = (
     "resolve-plan-dir.ps1",
     "set-active-plan.sh",
     "set-active-plan.ps1",
+    "attest-plan.sh",
+    "attest-plan.ps1",
 )
 
 
@@ -71,48 +73,6 @@ class CanonicalScriptSyncTests(unittest.TestCase):
             "Drift detected between scripts/ and skills/planning-with-files/scripts/. "
             f"Out-of-sync files: {mismatches}. "
             "Update both copies in the same commit, then run "
-            "`python scripts/sync-ide-folders.py` to refresh IDE folders.",
-        )
-
-    def test_sync_ide_folders_verify_clean(self) -> None:
-        result = subprocess.run(
-            [sys.executable, str(REPO_ROOT / "scripts" / "sync-ide-folders.py"), "--verify"],
-            cwd=str(REPO_ROOT),
-            text=True,
-            capture_output=True,
-            check=False,
-        )
-        self.assertEqual(
-            0,
-            result.returncode,
-            "sync-ide-folders.py --verify reported drift. "
-            "Run `python scripts/sync-ide-folders.py` from the repo root to fix.\n"
-            f"stdout:\n{result.stdout}\nstderr:\n{result.stderr}",
-        )
-
-
-if __name__ == "__main__":
-    unittest.main()
-
-
-
-class CanonicalScriptSyncTests(unittest.TestCase):
-    def test_shared_scripts_match_canonical_copy(self) -> None:
-        mismatches = []
-        for name in SHARED_SCRIPTS:
-            top = TOP_SCRIPTS / name
-            skill = SKILL_SCRIPTS / name
-            self.assertTrue(top.is_file(), f"missing top-level script: {top}")
-            self.assertTrue(skill.is_file(), f"missing canonical skill script: {skill}")
-            if not filecmp.cmp(top, skill, shallow=False):
-                mismatches.append(name)
-
-        self.assertFalse(
-            mismatches,
-            "Drift detected between scripts/ and skills/planning-with-files/scripts/. "
-            f"Out-of-sync files: {mismatches}. "
-            "Update both copies in the same PR (see CHANGELOG v2.36.0 for the original "
-            "miss). After updating the canonical skill copy, run "
             "`python scripts/sync-ide-folders.py` to refresh IDE folders.",
         )
 

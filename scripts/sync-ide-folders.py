@@ -50,6 +50,8 @@ SCRIPTS = [
     "scripts/resolve-plan-dir.ps1",
     "scripts/set-active-plan.sh",
     "scripts/set-active-plan.ps1",
+    "scripts/attest-plan.sh",
+    "scripts/attest-plan.ps1",
 ]
 
 # ─── IDE sync manifests ───────────────────────────────────────────
