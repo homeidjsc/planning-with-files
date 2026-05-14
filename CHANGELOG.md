@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.38.0] - 2026-05-14
+
+### Added
+
+- **PreCompact hook**: a new hook event fires on Claude Code's autoCompact and manual `/compact`. When `task_plan.md` is present, the hook surfaces a reminder to flush in-context progress to `progress.md` before compaction completes, and prints the active `Plan-SHA256` if an attestation is set. Added to the canonical SKILL.md plus all five language variants plus `clawhub-upload`. Other IDE mirrors fall back to their pre-existing compaction-related hooks (Codex `/compact` callback, OpenCode `session.compacted`, Hermes `pre_llm_call`) until per-IDE PreCompact adapters land in a later release.
+- **`/plan-goal` slash command**: composes with Claude Code's new `/goal` primitive (v2.1.139, May 12 2026). Derives a goal condition from the active plan (`all phases in task_plan.md report Status: complete`) and forwards it to `/goal` so the agent keeps working until the plan-file is genuinely done, not just when the conversation looks done. Plan-loop and plan-goal are intentionally composable: cadence + termination criterion.
+- **`/plan-loop` slash command**: composes with Claude Code's `/loop` primitive (v2.1.72+). Default 10-minute tick re-reads the planning files, runs `check-complete`, and nudges an entry into `progress.md` if nothing has changed since the last tick. Override interval and prompt as you would with bare `/loop`.
+- **`templates/loop.md`**: a planning-aware default prompt users can copy into `.claude/loop.md` (project) or `~/.claude/loop.md` (user) so bare `/loop` runs grounded in the active plan. `/loop` only reads these two paths; copy is required, not auto-wired.
+- **OpenCode SQLite session catchup**: the skill's session-catchup script reads OpenCode's new SQLite store at `${XDG_DATA_HOME:-~/.local/share}/opencode/opencode.db` (sst/opencode dev @ 2026-05-14, schema: `session(id, directory, time_created, ...)` + `part(id, session_id, time_created, data TEXT JSON)`). The previous JSON-tree reader silently no-op'd for every OpenCode user since the storage migration. Now opens the DB read-only via URI (`file:<path>?mode=ro`), scopes by `session.directory`, and surfaces the most recent unsynced planning-file edits with the same UX as the Claude Code path. Defensive `PRAGMA table_info` probe degrades cleanly on schema migrations. Verified end-to-end against a real 162 MB OpenCode database on the development machine (94 sessions, correctly extracted 56 unsynced parts from a session with planning-file edits).
+- **Codex `PermissionRequest` adapter**: Codex added a `PermissionRequest` hook event for tool-permission prompts. The new `.codex/hooks/permission_request.py` adapter surfaces a one-line reminder to review `task_plan.md` before approving a request, when an active plan is present. Session-attachment gated (legacy default-on, isolation opt-in). Read-only; never blocks the request.
+- **SKILL.md body documentation**: a new "Claude Code Turn-Loop Integration (v2.38.0+)" section documents the PreCompact hook, `/plan-goal`, `/plan-loop`, and the `loop.md` template install. Surfaces v2.38 features in user-facing prose, not only frontmatter.
+- **`clawhub-upload/` full sync**: the ClawHub upload bundle had drifted from canonical somewhere around v2.32 (missing slug-mode, set-active-plan, resolve-plan-dir, attest-plan scripts, BEGIN/END injection delimiters, hash attestation hook bodies). Re-synced from canonical so the manual ClawHub upload reflects current v2.38 state.
+- **`tests/test_precompact_hook.py`** (6 tests): asserts the PreCompact hook is declared with a wildcard matcher, stays silent without `task_plan.md`, emits the reminder when the plan exists, surfaces `Plan-SHA256` only when an attestation file is set, and exits 0 on every code path.
+- **`tests/test_v238_command_files.py`** (7 tests): asserts `commands/plan-goal.md`, `commands/plan-loop.md`, and `templates/loop.md` exist, carry the expected frontmatter, document the `/goal` 4000-char limit, and reference all three planning files.
+- **`tests/test_session_catchup_opencode.py`** (4 tests): builds a synthetic `opencode.db` matching the live schema, asserts the catchup function finds the most recent planning-file edit, stays silent when no plan edit is present, and degrades silently when the DB is missing.
+
+### Changed
+
+- Version bumped to 2.38.0 across 14 SKILL.md variants, `plugin.json`, `marketplace.json`, and `CITATION.cff` via `scripts/bump-version.py`. `.continue`, `.gemini`, `.pi`, `.kiro` lag intentionally.
+- Canonical session-catchup script propagated to `.codebuddy`, `.codex`, `.continue`, `.factory`, `.gemini`, `.opencode`, `.pi` via `scripts/sync-ide-folders.py`.
+
+### Not changed (deliberate)
+
+- **No `paths` glob restriction in the canonical SKILL.md frontmatter.** The Claude Code spec now supports a `paths` field that filters auto-invocation to matching file types. Adding it would silently change auto-invocation behavior for the existing install base. Deferred to a later release with explicit signal data.
+- **No bulk replacement of inline hook bodies with `!command` substitution.** That substitution runs at skill-load time, not per hook fire. Wholesale swap would freeze the SHA-256 attestation hash at load time and silently disable v2.37's tamper-detection gate. Inline hook bodies retained for per-fire runtime checks.
+- **No native Plan Mode panel integration.** Claude Code's April 14 2026 desktop redesign added a Plan Mode panel with Approve/Reject flow, but no plugin/skill API is publicly documented for rendering plans into that panel. Tracked for a future release.
+- **No language variant consolidation.** Issue #130 (consolidate into a single skill with locale parameter) is a separate breaking change and is not bundled into this release. The five locale-specific variants continue to ship.
+
 ## [2.37.0] - 2026-05-05
 
 ### Security
